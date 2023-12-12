@@ -1,0 +1,685 @@
+
+
+
+
+
+<!-- 
+<ng-template #longContent let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">Modal title</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<p>
+			Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+			Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+		</p>
+		<p>
+			Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet
+			rutrum faucibus dolor auctor.
+		</p>
+		<p>
+			Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+			Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+		</p>
+		<p>
+			Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+			Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+		</p>
+		<p>
+			Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet
+			rutrum faucibus dolor auctor.
+		</p>
+		<p>
+			Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+			Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+		</p>
+		<p>
+			Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+			Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+		</p>
+		<p>
+			Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet
+			rutrum faucibus dolor auctor.
+		</p>
+		<p>
+			Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+			Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+		</p>
+		<p>
+			Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+			Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+		</p>
+		<p>
+			Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet
+			rutrum faucibus dolor auctor.
+		</p>
+		<p>
+			Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+			Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+		</p>
+		<p>
+			Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+			Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+		</p>
+		<p>
+			Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet
+			rutrum faucibus dolor auctor.
+		</p>
+		<p>
+			Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+			Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+		</p>
+		<p>
+			Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+			Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+		</p>
+		<p>
+			Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet
+			rutrum faucibus dolor auctor.
+		</p>
+		<p>
+			Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+			Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+		</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+	</div>
+</ng-template> -->
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title"><img width="300" height="45" src="https://onboarding.cfic.ph/wp-content/uploads/2022/08/LOGO.png" class="custom-logo" alt="CFC/CCC/CLGI Development" decoding="async"></h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+  
+    <h5>OVERSEAS EMPLOYEMNT INFORMATION</h5>
+    <br>
+    <div class="row">
+      <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Agency</label>
+            <input type="text" class="form-control" id="agency" readonly [(ngModel)]="agency" style="cursor: pointer;" (click)="copyMessage(agency)">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Principal</label>
+            <input type="text" class="form-control" id="principal" readonly [(ngModel)]="principal" style="cursor: pointer;" (click)="copyMessage(principal)">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Joining Port</label>
+            <input type="text" class="form-control" id="joiningport" readonly [(ngModel)]="joiningport" style="cursor: pointer;" (click)="copyMessage(joiningport)">
+          </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+      <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Position</label>
+            <input type="text" class="form-control" id="position" readonly [(ngModel)]="position" style="cursor: pointer;" (click)="copyMessage(position)">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Contract Term</label>
+            <input type="text" class="form-control" id="contractTerm" readonly [(ngModel)]="contractTerm" style="cursor: pointer;" (click)="copyMessage(contractTerm)">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Loan Amount Requested</label>
+            <input type="text" class="form-control" id="loanamountrequested" readonly [(ngModel)]="loanamountrequested" style="cursor: pointer;" (click)="copyMessage(loanamountrequested)">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Loan Term</label>
+            <input type="text" class="form-control" id="loanterm" readonly [(ngModel)]="loanterm" style="cursor: pointer;" (click)="copyMessage(loanterm)">
+          </div>
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="row">
+      <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Years as Seafarer</label>
+            <input type="text" class="form-control" id="position" readonly [(ngModel)]="yearsAsSeafer" style="cursor: pointer;" (click)="copyMessage(yearsAsSeafer)">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Monthly Salary(US$)</label>
+            <input type="text" class="form-control" id="contractTerm" readonly [(ngModel)]="monthlySalary" style="cursor: pointer;" (click)="copyMessage(monthlySalary)">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Loan Purpose</label>
+            <input type="text" class="form-control" id="loanamountrequested" readonly [(ngModel)]="loanPurpose" style="cursor: pointer;" (click)="copyMessage(loanPurpose)">
+          </div>
+        </div>
+    </div>
+    <br>
+    <h5>BORROWER'S INFORMATION</h5>
+    <br>
+
+    <div class="row">
+      <div class="col-lg-2">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Last Name</label>
+            <input type="text" class="form-control" id="lastname" readonly [(ngModel)]="lastname" style="cursor: pointer;" (click)="copyMessage(lastname)">
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">First Name</label>
+            <input type="text" class="form-control" id="firstname" readonly [(ngModel)]="firstname" style="cursor: pointer;" (click)="copyMessage(firstname)">
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Middle Name</label>
+            <input type="text" class="form-control" id="middlename" readonly [(ngModel)]="middlename" style="cursor: pointer;" (click)="copyMessage(middlename)">
+          </div>
+        </div>
+
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Birth Date</label>
+            <input type="text" class="form-control" id="birthdate" readonly [(ngModel)]="birthdate" style="cursor: pointer;" (click)="copyMessage(birthdate)">
+          </div>
+        </div>
+
+        <div class="col-lg-1">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Age</label>
+            <input type="text" class="form-control" id="age" readonly [(ngModel)]="age" style="cursor: pointer;" (click)="copyMessage(age)">
+          </div>
+        </div>
+        
+        <div class="col-lg-1">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Sex</label>
+            <input type="text" class="form-control" id="sex" readonly [(ngModel)]="sex" style="cursor: pointer;" (click)="copyMessage(sex)">
+          </div>
+        </div>
+
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Civil Status</label>
+            <input type="text" class="form-control" id="civilstatus" readonly [(ngModel)]="civilstatus" style="cursor: pointer;" (click)="copyMessage(civilstatus)">
+          </div>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="row">
+      <div class="col-lg-10">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Home Address</label>
+            <input type="text" class="form-control" id="homeaddress" readonly [(ngModel)]="homeaddress" style="cursor: pointer;" (click)="copyMessage(homeaddress)">
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Length of Stay (M)</label>
+            <input type="text" class="form-control" id="homelengthofstay" readonly [(ngModel)]="homelengthofstay" style="cursor: pointer;" (click)="copyMessage(homelengthofstay)">
+          </div>
+        </div>
+    </div>
+
+
+    <br>
+
+    <div class="row">
+      <div class="col-lg-10">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Provincial Address</label>
+            <input type="text" class="form-control" id="provincialaddress" readonly [(ngModel)]="provincialaddress" style="cursor: pointer;" (click)="copyMessage(provincialaddress)">
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Length of Stay (M)</label>
+            <input type="text" class="form-control" id="provinciallengthofstay" readonly [(ngModel)]="provinciallengthofstay" style="cursor: pointer;" (click)="copyMessage(provinciallengthofstay)">
+          </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-lg-6">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Facebook Account</label>
+            <input type="text" class="form-control" id="socialmediaName" readonly [(ngModel)]="socialmediaName" style="cursor: pointer;" (click)="copyMessage(socialmediaName)">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Email Address</label>
+            <input type="text" class="form-control" id="personalEmailAddress" readonly [(ngModel)]="personalEmailAddress" style="cursor: pointer;" (click)="copyMessage(personalEmailAddress)">
+          </div>
+        </div>
+    </div>
+
+    <br>
+
+    
+    <div class="row">
+    
+      <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Mobile No.</label>
+            <input type="text" class="form-control" id="mobileNo" readonly [(ngModel)]="mobileNo" style="cursor: pointer;" (click)="copyMessage(mobileNo)">
+          </div>
+        </div>
+    
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Home Phone</label>
+            <input type="text" class="form-control" id="homePhone" readonly [(ngModel)]="homePhone" style="cursor: pointer;" (click)="copyMessage(homePhone)">
+          </div>
+        </div>
+    
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">SSS No.</label>
+            <input type="text" class="form-control" id="SSSNo" readonly [(ngModel)]="SSSNo" style="cursor: pointer;" (click)="copyMessage(SSSNo)">
+          </div>
+        </div>
+    
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">TIN No.</label>
+            <input type="text" class="form-control" id="TINNo" readonly [(ngModel)]="TINNo" style="cursor: pointer;" (click)="copyMessage(TINNo)">
+          </div>
+        </div>
+      
+      </div>
+
+      <br>
+
+      
+    <div class="row">
+      <div class="col-lg-6">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Home Ownership</label>
+            <input type="text" class="form-control" id="homeOwnerhsip" readonly [(ngModel)]="homeOwnerhsip" style="cursor: pointer;" (click)="copyMessage(homeOwnerhsip)">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">How Much?</label>
+            <input type="text" class="form-control" id="homeOwnerhsipHowMuch" readonly [(ngModel)]="homeOwnerhsipHowMuch" style="cursor: pointer;" (click)="copyMessage(homeOwnerhsipHowMuch)">
+          </div>
+        </div>
+      
+      </div>
+
+      <br>
+
+
+      
+    <div class="row">
+      <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Spouse Name</label>
+            <input type="text" class="form-control" id="spouseName" readonly [(ngModel)]="spouseName" style="cursor: pointer;" (click)="copyMessage(spouseName)">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Spouse Facebook Account</label>
+            <input type="text" class="form-control" id="spouseFacebookAccount" readonly [(ngModel)]="spouseFacebookAccount" style="cursor: pointer;" (click)="copyMessage(spouseFacebookAccount)">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Spouse Mobile No</label>
+            <input type="text" class="form-control" id="spouseMobileNo" readonly [(ngModel)]="spouseMobileNo" style="cursor: pointer;" (click)="copyMessage(spouseMobileNo)">
+          </div>
+        </div>
+      </div>
+      
+      <br>
+
+    <div class="row">
+      <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Spouse Employer Name</label>
+            <input type="text" class="form-control" id="spouseEmployerName" readonly [(ngModel)]="spouseEmployerName" style="cursor: pointer;" (click)="copyMessage(spouseEmployerName)">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Spouse Employer Address</label>
+            <input type="text" class="form-control" id="spouseEmployerAddress" readonly [(ngModel)]="spouseEmployerAddress" style="cursor: pointer;" (click)="copyMessage(spouseEmployerAddress)">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Spouse Employer Position</label>
+            <input type="text" class="form-control" id="position" readonly [(ngModel)]="position" style="cursor: pointer;" (click)="copyMessage(position)">
+          </div>
+        </div>
+      </div>
+
+      <br>
+      
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name of Dependents</th>
+              <th scope="col">School Attended</th>
+              <th scope="col">Age</th>
+              <th scope="col">Contact Number</th>
+            </tr>
+          </thead>
+          <tbody>
+          
+            <tr *ngIf="firstDependentName != ''">
+              <td style="cursor: pointer;" (click)="copyMessage(firstDependentName)">{{firstDependentName}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(firstDependentSchoolAttended)">{{firstDependentSchoolAttended}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(firstDependentAge)">{{firstDependentAge}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(firstDependentContactNumber)">{{firstDependentContactNumber}}</td>
+            </tr>
+          
+            <tr *ngIf="secondDependentName != ''">
+              <td style="cursor: pointer;" (click)="copyMessage(secondDependentName)">{{secondDependentName}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(secondDependentSchoolAttended)">{{secondDependentSchoolAttended}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(secondDependentAge)">{{secondDependentAge}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(secondDependentContactNumber)">{{secondDependentContactNumber}}</td>
+            </tr>
+
+            <tr *ngIf="thirdDependentName != ''">
+              <td style="cursor: pointer;" (click)="copyMessage(thirdDependentName)">{{thirdDependentName}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(thirdDependentSchoolAttended)">{{thirdDependentSchoolAttended}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(thirdDependentAge)">{{thirdDependentAge}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(thirdDependentContactNumber)">{{thirdDependentContactNumber}}</td>
+            </tr>
+
+            
+            <tr *ngIf="fourthDependentName != ''">
+              <td style="cursor: pointer;" (click)="copyMessage(fourthDependentName)">{{fourthDependentName}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(fourthDependentSchoolAttended)">{{fourthDependentSchoolAttended}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(fourthDependentAge)">{{fourthDependentAge}}</td>
+              <td style="cursor: pointer;" (click)="copyMessage(fourthDependentContactNumber)">{{fourthDependentContactNumber}}</td>
+            </tr>
+          
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <br>
+      <h5>CO-BORROWER DETAILS (WHEN REQUIRED)</h5>
+    <br>
+
+    <div class="row">
+    
+      <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Last Name</label>
+            <input type="text" class="form-control" id="coborrowerlastname" readonly [(ngModel)]="coborrowerlastname" style="cursor: pointer;" (click)="copyMessage(coborrowerlastname)">
+          </div>
+        </div>
+    
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">First Name</label>
+            <input type="text" class="form-control" id="coborrowerfirstname" readonly [(ngModel)]="coborrowerfirstname" style="cursor: pointer;" (click)="copyMessage(coborrowerfirstname)">
+          </div>
+        </div>
+    
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Middle Name</label>
+            <input type="text" class="form-control" id="coborrowermiddlename" readonly [(ngModel)]="coborrowermiddlename" style="cursor: pointer;" (click)="copyMessage(coborrowermiddlename)">
+          </div>
+        </div>
+    
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Relationship to the Applicant</label>
+            <input type="text" class="form-control" id="coborrowerRelationshipToApplicant" readonly [(ngModel)]="coborrowerRelationshipToApplicant" style="cursor: pointer;" (click)="copyMessage(coborrowerRelationshipToApplicant)">
+          </div>
+        </div>
+    
+      </div>
+
+      <br>
+
+
+      
+    <div class="row">
+    
+      <div class="col-lg-4">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Birthday</label>
+            <input type="text" class="form-control" id="coborrowerBirthday" readonly [(ngModel)]="coborrowerBirthday" style="cursor: pointer;" (click)="copyMessage(coborrowerBirthday)">
+          </div>
+        </div>
+    
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Age</label>
+            <input type="text" class="form-control" id="coborrowerAge" readonly [(ngModel)]="coborrowerAge" style="cursor: pointer;" (click)="copyMessage(coborrowerAge)">
+          </div>
+        </div>
+    
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Email Address</label>
+            <input type="text" class="form-control" id="coborrowerEmailAddress" readonly [(ngModel)]="coborrowerEmailAddress" style="cursor: pointer;" (click)="copyMessage(coborrowerEmailAddress)">
+          </div>
+        </div>
+    
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Mobile / Home Phone No.</label>
+            <input type="text" class="form-control" id="coborrowerMobileNo" readonly [(ngModel)]="coborrowerMobileNo" style="cursor: pointer;" (click)="copyMessage(coborrowerMobileNo)">
+          </div>
+        </div>
+      
+      </div>
+
+
+      <br>
+
+    <div class="row">
+      <div class="col-lg-10">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Address</label>
+            <input type="text" class="form-control" id="coborrowerAddress" readonly [(ngModel)]="coborrowerAddress" style="cursor: pointer;" (click)="copyMessage(coborrowerAddress)">
+          </div>
+        </div>
+    
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Length of Stay (M)</label>
+            <input type="text" class="form-control" id="coborrowerLenghofStay" readonly [(ngModel)]="coborrowerLenghofStay" style="cursor: pointer;" (click)="copyMessage(coborrowerLenghofStay)">
+          </div>
+        </div>    
+      </div>
+      <br>
+      <h5>PARENT'S DETAILS</h5>
+      <br>
+    
+    <div class="row">
+      <div class="col-lg-6">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Father's Name</label>
+            <input type="text" class="form-control" id="borrowerfathersname" readonly [(ngModel)]="borrowerfathersname" style="cursor: pointer;" (click)="copyMessage(borrowerfathersname)">
+          </div>
+        </div>
+    
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Mother's Name</label>
+            <input type="text" class="form-control" id="borrowermothersname" readonly [(ngModel)]="borrowermothersname" style="cursor: pointer;" (click)="copyMessage(borrowermothersname)">
+          </div>
+        </div>    
+      </div>
+      <br>
+    <div class="row">
+      <div class="col-lg-12">
+          <div class="form-group">
+            <label style="font-weight: bold;" for="exampleFormControlInput1">Address</label>
+            <input type="text" class="form-control" id="borrowerparentsaddress" readonly [(ngModel)]="borrowerparentsaddress" style="cursor: pointer;" (click)="copyMessage(borrowerparentsaddress)">
+          </div>
+        </div>   
+      </div>
+
+      <br>
+
+    
+      <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+              <label style="font-weight: bold;" for="exampleFormControlInput1">Landline No.</label>
+              <input type="text" class="form-control" id="borrowerparentslandlineno" readonly [(ngModel)]="borrowerparentslandlineno" style="cursor: pointer;" (click)="copyMessage(borrowerparentslandlineno)">
+            </div>
+          </div>
+      
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label style="font-weight: bold;" for="exampleFormControlInput1">Mobile No.</label>
+              <input type="text" class="form-control" id="borrowerparentsmobileno" readonly [(ngModel)]="borrowerparentsmobileno">
+            </div>
+          </div>    
+        </div>
+
+        <br>
+        <h5>RELATIVES CHARACTER REFERENCES (NOT LIVING WITH YOU)</h5>
+        <br>
+
+        
+      <div class="row">
+        <div class="col-lg-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Relation to Applicant</th>
+                <th scope="col">Address</th>
+                <th scope="col">Contact No.</th>
+              </tr>
+            </thead>
+            <tbody>
+            
+              <tr *ngIf="borrowerfirstrelativename != ''">
+                <td style="cursor: pointer;" (click)="copyMessage(borrowerfirstrelativename)">{{borrowerfirstrelativename}}</td>
+                <td style="cursor: pointer;" (click)="copyMessage(borrowerfirstrelativerelationtoapplicant)">{{borrowerfirstrelativerelationtoapplicant}}</td>
+                <td style="cursor: pointer;" (click)="copyMessage(borrowerfirstrelativeaddress)">{{borrowerfirstrelativeaddress}}</td>
+                <td style="cursor: pointer;" (click)="copyMessage(borrowerfirstrelativecontactno)">{{borrowerfirstrelativecontactno}}</td>
+              </tr>
+            
+              <tr *ngIf="borrowersecondrelativename != ''">
+                <td style="cursor: pointer;" (click)="copyMessage(borrowersecondrelativename)">{{borrowersecondrelativename}}</td>
+                <td style="cursor: pointer;" (click)="copyMessage(borrowersecondrelativerelationtoapplicant)">{{borrowersecondrelativerelationtoapplicant}}</td>
+                <td style="cursor: pointer;" (click)="copyMessage(borrowersecondrelativeaddress)">{{borrowersecondrelativeaddress}}</td>
+                <td style="cursor: pointer;" (click)="copyMessage(borrowersecondrelativecontactno)">{{borrowersecondrelativecontactno}}</td>
+              </tr>
+  
+              <tr *ngIf="borrowerthirdrelativename != ''">
+                <td style="cursor: pointer;" (click)="copyMessage(borrowerthirdrelativename)">{{borrowerthirdrelativename}}</td>
+                <td style="cursor: pointer;" (click)="copyMessage(borrowerthirdrelativerelationtoapplicant)">{{borrowerthirdrelativerelationtoapplicant}}</td>
+                <td style="cursor: pointer;" (click)="copyMessage(borrowerthirdrelativeaddress)">{{borrowerthirdrelativeaddress}}</td>
+                <td style="cursor: pointer;" (click)="copyMessage(borrowerthirdrelativecontactno)">{{borrowerthirdrelativecontactno}}</td>
+               </tr>
+
+            </tbody>
+          </table>
+          </div>  
+        </div>
+	
+    </div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+	</div>
+</ng-template>
+<br>
+<br>
+<br>
+<br>
+<form>
+	<div class="mb-3 row">
+		<label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
+		<div class="col-xs-3 col-sm-auto">
+			<input
+				id="table-complete-search"
+				type="text"
+				class="form-control"
+				name="searchTerm"
+				[(ngModel)]="service.searchTerm"
+			/>
+		</div>
+		@if (service.loading$ | async) {
+			<span class="col col-form-label">Loading...</span>
+		}
+	</div>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<!-- <th scope="col">#</th> -->
+				<th scope="col" sortable="SeabasedAgency" (sort)="onSort($event)">Seabased Agency</th>
+        <th scope="col" sortable="LandbasedAgency" (sort)="onSort($event)">Landbased Agency</th>
+				<th scope="col" sortable="BorrowerLastName" (sort)="onSort($event)">Borrower Last Name</th>
+				<th scope="col" sortable="BorrowerFirstName" (sort)="onSort($event)">Borrower First Name</th>
+        <th scope="col" sortable="BorrowerMiddleName" (sort)="onSort($event)">Borrower Middle Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (country of countries$ | async; track country.ID) {
+				<tr style="cursor: pointer" (click)="openXl(content, country)">
+					<!-- <th scope="row">{{ country.ID }}</th> -->
+					<td>
+						<!-- <img
+							[src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
+							[alt]="'The flag of ' + country.name"
+							class="me-2"
+							style="width: 20px"
+						/> -->
+						<ngb-highlight [result]="country.SeabasedAgency" [term]="service.searchTerm" />
+					</td>
+					<!-- <td><ngb-highlight [result]="country.BorrowerMiddleName | number" [term]="service.searchTerm" /></td> -->
+          <td><ngb-highlight [result]="country.LandbasedAgency" [term]="service.searchTerm" /></td>
+					<td><ngb-highlight [result]="country.BorrowerLastName" [term]="service.searchTerm" /></td>
+          <td><ngb-highlight [result]="country.BorrowerFirstName" [term]="service.searchTerm" /></td>
+          <td><ngb-highlight [result]="country.BorrowerMiddleName" [term]="service.searchTerm" /></td>
+				</tr>
+			} @empty {
+				<tr>
+					<td colspan="4" style="text-align: center">No borrowers found</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	<div class="d-flex justify-content-between p-2">
+		<ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+		</ngb-pagination>
+
+		<select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+			<option [ngValue]="2">2 items per page</option>
+			<option [ngValue]="4">4 items per page</option>
+			<option [ngValue]="6">6 items per page</option>
+		</select>
+	</div>
+</form>
+
+
+<router-outlet></router-outlet>

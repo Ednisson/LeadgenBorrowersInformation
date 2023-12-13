@@ -93,9 +93,33 @@
 		<h4 class="modal-title"><img width="300" height="45" src="https://onboarding.cfic.ph/wp-content/uploads/2022/08/LOGO.png" class="custom-logo" alt="CFC/CCC/CLGI Development" decoding="async"></h4>
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
+
 	<div class="modal-body">
   
-    <h5>OVERSEAS EMPLOYEMNT INFORMATION</h5>
+    <h5>ENCODER INFORMATION</h5>
+    <br>
+    <div class="row">
+ 
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label style="font-weight: bold;" for="exampleFormControlInput1">Encoded By</label>
+          <input type="text" class="form-control" id="agency" readonly [(ngModel)]="encodedBy" style="cursor: pointer;" (click)="copyMessage(encodedBy)">
+        </div>
+      </div>
+
+      
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label style="font-weight: bold;" for="exampleFormControlInput1">Date Applied</label>
+          <input type="text" class="form-control" id="agency" readonly [(ngModel)]="dateApplied" style="cursor: pointer;" (click)="copyMessage(dateApplied)">
+        </div>
+      </div>
+
+
+    </div>
+    <br>
+
+    <h5>OVERSEAS EMPLOYMENT INFORMATION</h5>
     <br>
     <div class="row">
       <div class="col-lg-4">
@@ -556,7 +580,7 @@
           <div class="col-lg-6">
             <div class="form-group">
               <label style="font-weight: bold;" for="exampleFormControlInput1">Mobile No.</label>
-              <input type="text" class="form-control" id="borrowerparentsmobileno" readonly [(ngModel)]="borrowerparentsmobileno">
+              <input type="text" class="form-control" id="borrowerparentsmobileno" readonly [(ngModel)]="borrowerparentsmobileno" style="cursor: pointer;" (click)="copyMessage(borrowerparentsmobileno)">
             </div>
           </div>    
         </div>
@@ -606,9 +630,12 @@
         </div>
 	
     </div>
+
+<!--     
 	<div class="modal-footer">
 		<button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
-	</div>
+	</div> -->
+
 </ng-template>
 <br>
 <br>

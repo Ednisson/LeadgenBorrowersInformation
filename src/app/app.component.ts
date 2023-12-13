@@ -3,7 +3,7 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { Papa } from 'ngx-papaparse';
 import { HttpClient } from '@angular/common/http';
-import {NgbHighlight, NgbModalModule, NgbPaginationModule, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbHighlight, NgbModalModule, NgbPaginationModule, NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { Country } from './interface/country';
 import { NgbdSortableHeader, SortEvent } from './directives/borrowerinformationsortable.directive';
@@ -11,12 +11,13 @@ import { CountryService } from './services/country.service';
 import { FormsModule } from '@angular/forms';
 import { BorrowersinformationService } from './services/borrowersinformation.service';
 import { BorrowersInformation } from './interface/borrowers-information';
+import moment from 'moment';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   providers: [DecimalPipe, CountryService, BorrowersinformationService],
-  imports: [CommonModule, RouterOutlet,  NgbHighlight, NgbdSortableHeader, NgbPaginationModule, FormsModule],
+  imports: [CommonModule, RouterOutlet,  NgbHighlight, NgbdSortableHeader, NgbPaginationModule,  FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -132,6 +133,10 @@ public borrowerthirdrelativecontactno: string = ''
 
 
 
+public encodedBy: string = ''
+public dateApplied: string = ''
+
+
 private modalService = inject(NgbModal);
 //   title = 'LeadGenBorrowerList';
 
@@ -180,7 +185,21 @@ ngOnInit(): void {
 //   this.modalService.open(longContent, { scrollable: true });
 // }
 
+calculateDateDifference(dateToCalculate: string) 
+{
+  let borrowerBirthdateSplit = dateToCalculate.split("-");
+  let currentDate = new Date();
+  let currentDateConvertFromMoment = moment(currentDate).format("MM-DD-YYYY")
+  let currentDateConvertedSplit = currentDateConvertFromMoment.split("-");
+  var a = moment([parseInt(currentDateConvertedSplit[2]), (parseInt(currentDateConvertedSplit[0]) - 1), parseInt(currentDateConvertedSplit[1])]);
+  var b = moment([parseInt(borrowerBirthdateSplit[2]), (parseInt(borrowerBirthdateSplit[0]) - 1), parseInt(borrowerBirthdateSplit[1])]);
+  return a.diff(b, 'years').toString();
+}
+
+
 openXl(content: TemplateRef<any>, data: BorrowersInformation) {
+  
+
   this.agency = data.SeabasedAgency;
   this.principal = data.SeabasedPrincipal;
   this.joiningport = data.SeabasedJoiningPort;
@@ -195,7 +214,7 @@ openXl(content: TemplateRef<any>, data: BorrowersInformation) {
   this.firstname = data.BorrowerFirstName;
   this.middlename = data.BorrowerMiddleName;
   this.birthdate = data.BorrowerBirthDate;
-  this.age = "35"
+  this.age = this.calculateDateDifference(data.BorrowerBirthDate);
   this.sex = data.BorrowerGender;
   this.civilstatus = data.BorrowerCivilStatus;
   this.homeaddress = `${data.BorrowerHomeAddress == '' ?'' : data.BorrowerHomeAddress + ','} ${data.BorrowerHomeBarangay} ${data.BorrowerHomeCity}, ${data.BorrowerHomeProvince}`
@@ -251,7 +270,7 @@ openXl(content: TemplateRef<any>, data: BorrowersInformation) {
 
 
   this.coborrowerBirthday = data.BorrowerCoBorrowerBirthDate;
-  this.coborrowerAge =  "";
+  this.coborrowerAge =  this.calculateDateDifference(data.BorrowerCoBorrowerBirthDate);
   this.coborrowerEmailAddress = data.BorrowerCoBorrowerPersonalEmailAddress;
   this.coborrowerMobileNo = data.BorrowerCoBorrowerMobileNo; 
 
@@ -297,11 +316,12 @@ this.borrowerthirdrelativeaddress = `${data.Borrower3rdRelativeHomeAddress == ''
 this.borrowerthirdrelativecontactno = data.Borrower3rdRelativeMobileNo
 
 
+this.encodedBy = data.EncodedBy;
+
+this.dateApplied = moment(data.DateApplied).toDate().toString();
 
 
-
-
-  this.modalService.open(content, { size: 'xl', scrollable: true });
+  this.modalService.open(content, { size: 'xl', scrollable: true, backdrop: 'static', keyboard: false });
 }
 
 
@@ -310,7 +330,7 @@ copyMessage(value: string)
 navigator.clipboard.writeText(value)
 .then(el => 
   {
-    alert("Copied to Clipboard");
+    alert("Copied");
 
   })
 .catch(e => console.log(e));

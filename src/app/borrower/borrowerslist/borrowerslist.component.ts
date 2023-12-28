@@ -720,6 +720,15 @@ closePopOver(p: NgbPopover)
 copyEvent(event: any) 
 {
   var value = event.target.value;
+ ChangeInputColorsandAllCapsThePasteValueExceptEmail
+  this.copyMessage(value.toUpperCase());
+}
+
+copyEventEmailNotUppercase(event: any) 
+{
+  var value = event.target.value;
+  this.copyMessage(value.toLowerCase());
+
   //console.log("copy event", event.target.value);
 
   //this.copyMessage(value);

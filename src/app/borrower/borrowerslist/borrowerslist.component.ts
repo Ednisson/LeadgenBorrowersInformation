@@ -451,7 +451,7 @@ this.retrieveBorrower()
 
 copyMessage(value: any) 
 {
-navigator.clipboard.writeText(value)
+window.navigator.clipboard.writeText(value)
 .then(el => 
   {
     //alert("Copied");
@@ -720,9 +720,26 @@ closePopOver(p: NgbPopover)
 copyEvent(event: any) 
 {
   var value = event.target.value;
-  console.log("copy event", event.target.value);
+  //console.log("copy event", event.target.value);
 
-  this.copyMessage(value);
+  //this.copyMessage(value);
+
+  this.unsecuredCopyToClipboard(value);
+}
+
+unsecuredCopyToClipboard(text: any) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    //console.log("copied to clipboard")
+  } catch (err) {
+    console.error('Unable to copy to clipboard', err);
+  }
+  document.body.removeChild(textArea);
 }
 
 }

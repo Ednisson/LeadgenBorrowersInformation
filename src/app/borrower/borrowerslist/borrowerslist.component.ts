@@ -720,9 +720,13 @@ closePopOver(p: NgbPopover)
 copyEvent(event: any) 
 {
   var value = event.target.value;
-  console.log("copy event", event.target.value);
+  this.copyMessage(value.toUpperCase());
+}
 
-  this.copyMessage(value);
+copyEventEmailNotUppercase(event: any) 
+{
+  var value = event.target.value;
+  this.copyMessage(value.toLowerCase());
 }
 
 }

@@ -1,4 +1,4 @@
-import { Injectable, PipeTransform } from '@angular/core';
+import { Injectable, OnInit, PipeTransform } from '@angular/core';
 
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
@@ -7,146 +7,179 @@ import BORROWERSINFORMATION from '../../assets/borrowerinformation.json';
 import { DecimalPipe } from '@angular/common';
 import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from '../directives/sortable.directive';
-
+import moment from 'moment';
 interface SearchResult {
-	countries: BorrowersInformation[];
-	total: number;
+  borrowers: BorrowersInformation[];
+  total: number;
 }
 
 interface State {
-	page: number;
-	pageSize: number;
-	searchTerm: string;
-	sortColumn: SortColumn;
-	sortDirection: SortDirection;
+  page: number;
+  pageSize: number;
+  searchTerm: string;
+  sortColumn: SortColumn;
+  sortDirection: SortDirection;
 }
 
-const compare = (v1: string | number, v2: string | number) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
+const compare = (v1: string | number, v2: string | number) =>
+  v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(countries: BorrowersInformation[], column: SortColumn, direction: string): BorrowersInformation[] {
-	if (direction === '' || column === '') 
-  {
-		return countries;
-	} 
-  else 
-  {
-		return [...countries].sort((a, b) => {
-			const res = compare(a[column], b[column]);
-			return direction === 'asc' ? res : -res;
-		});
-	}
+function sort(
+  borrowers: BorrowersInformation[],
+  column: SortColumn,
+  direction: string
+): BorrowersInformation[] {
+  if (direction === '' || column === '') {
+    return borrowers;
+  } else {
+    return [...borrowers].sort((a, b) => {
+      const res = compare(a[column], b[column]);
+      return direction === 'asc' ? res : -res;
+    });
+  }
 }
 
-function matches(country: BorrowersInformation, term: string, pipe: PipeTransform) {
-	return (
-		country.SeabasedAgency.toLowerCase().includes(term.toLowerCase()) ||
-    country.LandbasedAgency.toLowerCase().includes(term.toLowerCase()) ||
-    country.BorrowerLastName.toLowerCase().includes(term.toLowerCase()) ||
-    country.BorrowerFirstName.toLowerCase().includes(term.toLowerCase()) ||
-    country.BorrowerMiddleName.toLowerCase().includes(term.toLowerCase()) 
-		// pipe.transform(country.LandbasedAgency).includes(term) ||
-		// pipe.transform(country.BorrowerLastName).includes(term) ||
-    // pipe.transform(country.BorrowerFirstName).includes(term) ||
-    // pipe.transform(country.BorrowerMiddleName).includes(term)
-	);
+function matches(
+  country: BorrowersInformation,
+  term: string,
+  pipe: PipeTransform
+) {
+  // return (
+  // // 	country.SeabasedAgency.toLowerCase().includes(term.toLowerCase()) ||
+  // // country.LandbasedAgency.toLowerCase().includes(term.toLowerCase()) ||
+  // // country.BorrowerLastName.toLowerCase().includes(term.toLowerCase()) ||
+  // // country.BorrowerFirstName.toLowerCase().includes(term.toLowerCase()) ||
+  // // country.BorrowerMiddleName.toLowerCase().includes(term.toLowerCase())
+  // country.DateApplied.toLowerCase().includes(term.toLowerCase()) ||
+  // country.SeabasedAgency.toLowerCase().includes(term.toLowerCase()) ||
+  // country.LandbasedAgency.toLowerCase().includes(term.toLowerCase()) ||
+  // country.BorrowerLastName.toLowerCase().includes(term.toLowerCase()) ||
+  // country.BorrowerFirstName.toLowerCase().includes(term.toLowerCase()) ||
+  // country.BorrowerMiddleName.toLowerCase().includes(term.toLowerCase()) ||
+  // pipe.transform(country.AmountApplied).includes(term)
+  // );
 }
-
-
-
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class BorrowersinformationService {
-
-  public COUNTRIES: any[] = []
+export class BorrowersinformationService implements OnInit {
+  public borrowers: any;
+  public total: any;
+  public BORROWERS: any[] = [];
   private _loading$ = new BehaviorSubject<boolean>(true);
-	private _search$ = new Subject<void>();
-	private _countries$ = new BehaviorSubject<BorrowersInformation[]>([]);
-	private _total$ = new BehaviorSubject<number>(0);
+  private _search$ = new Subject<void>();
+  private _borrowers$ = new BehaviorSubject<BorrowersInformation[]>([]);
+  private _total$ = new BehaviorSubject<number>(0);
 
-	private _state: State = {
-		page: 1,
-		pageSize: 4,
-		searchTerm: '',
-		sortColumn: '',
-		sortDirection: '',
-	};
-
+  private _state: State = {
+    page: 1,
+    pageSize: 5,
+    searchTerm: '',
+    sortColumn: '',
+    sortDirection: '',
+  };
 
   constructor(private pipe: DecimalPipe) {
-		this._search$
-			.pipe(
-				tap(() => this._loading$.next(true)),
-				debounceTime(200),
-				switchMap(() => this._search()),
-				delay(200),
-				tap(() => this._loading$.next(false)),
-			)
-			.subscribe((result) => {
-				this._countries$.next(result.countries);
-				this._total$.next(result.total);
-			});
+    var data: any[] = []
+    this._search$
+      .pipe(
+        tap(() => this._loading$.next(true)),
+        debounceTime(200),
+        switchMap(() => this._search(data)),
+        delay(200),
+        tap(() => this._loading$.next(false))
+      )
+      .subscribe((result) => {
+        this._borrowers$.next(result.borrowers);
+        this._total$.next(result.total);
+      });
 
-		this._search$.next();
-	}
+    this._search$.next();
+  }
 
+  async ngOnInit() {
+    await this.load();
+  }
+  get countries$() {
+    return this._borrowers$.asObservable();
+  }
+  get total$() {
+    return this._total$.asObservable();
+  }
+  get loading$() {
+    return this._loading$.asObservable();
+  }
+  get page() {
+    return this._state.page;
+  }
+  get pageSize() {
+    return this._state.pageSize;
+  }
+  get searchTerm() {
+    return this._state.searchTerm;
+  }
 
-	get countries$() {
-		return this._countries$.asObservable();
-	}
-	get total$() {
-		return this._total$.asObservable();
-	}
-	get loading$() {
-		return this._loading$.asObservable();
-	}
-	get page() {
-		return this._state.page;
-	}
-	get pageSize() {
-		return this._state.pageSize;
-	}
-	get searchTerm() {
-		return this._state.searchTerm;
-	}
+  set page(page: number) {
+    this._set({ page });
+  }
+  set pageSize(pageSize: number) {
+    this._set({ pageSize });
+  }
+  set searchTerm(searchTerm: string) {
+    this._set({ searchTerm });
+  }
+  set sortColumn(sortColumn: SortColumn) {
+    this._set({ sortColumn });
+  }
+  set sortDirection(sortDirection: SortDirection) {
+    this._set({ sortDirection });
+  }
 
-	set page(page: number) {
-		this._set({ page });
-	}
-	set pageSize(pageSize: number) {
-		this._set({ pageSize });
-	}
-	set searchTerm(searchTerm: string) {
-		this._set({ searchTerm });
-	}
-	set sortColumn(sortColumn: SortColumn) {
-		this._set({ sortColumn });
-	}
-	set sortDirection(sortDirection: SortDirection) {
-		this._set({ sortDirection });
-	}
+  private _set(patch: Partial<State>) {
+    Object.assign(this._state, patch);
+    this._search$.next();
+  }
 
-	private _set(patch: Partial<State>) {
-		Object.assign(this._state, patch);
-		this._search$.next();
-	}
+  private  _search(data: any): Observable<SearchResult> {
+    console.log("wew", data)
+    const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
+//     var borrower: [] = []
+// this.load().then((el) => 
+// {
+// 	this.BORROWERS.push(el)
+// })
 
-	private _search(): Observable<SearchResult> {
-		const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
-    this.COUNTRIES = BORROWERSINFORMATION;
-		// 1. sort
-		let countries = sort(this.COUNTRIES, sortColumn, sortDirection);
+// 1. sort
+let borrowers = sort(data, sortColumn, sortDirection);
 
-		// 2. filter
-		countries = countries.filter((country) => matches(country, searchTerm, this.pipe));
-		const total = countries.length;
+// 2. filter
+borrowers = borrowers.filter((borrowers: any) =>
+  matches(borrowers, searchTerm, this.pipe)
+);
+const total = borrowers.length;
 
-		// 3. paginate
-		countries = countries.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-		return of({ countries, total });
-	}
-
-
-
+// 3. paginate
+borrowers = borrowers.slice(
+  (page - 1) * pageSize,
+  (page - 1) * pageSize + pageSize
+);
+		return of({ borrowers, total });
+}
+  public async load() 
+  {
+	const response = await fetch(
+        'https://script.google.com/macros/s/AKfycbxkMPTxFMGHUOa-RLyA-KQcm1v6XpkWQcnbA2rqjaLo-gBhEFvg8_sd0XCd7C6fUvXBmA/exec'
+      );
+      let data = await response.json();
+		data = data.map((el: any) => 
+		Object.fromEntries(Object.entries(el).map(([key, value]) => ([
+		  key.replace(/\s+/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '').replace("-", ''),
+		  value
+		])))
+	  );
+      this.BORROWERS = data;
+      await this._search(data);
+  }
+  
 }

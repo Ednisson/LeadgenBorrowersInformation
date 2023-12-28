@@ -1,18 +1,19 @@
 import { Component, OnInit, QueryList, TemplateRef, ViewChildren, inject } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { Papa } from 'ngx-papaparse';
 import { HttpClient } from '@angular/common/http';
 import {NgbHighlight, NgbModalModule, NgbPaginationModule, NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { Country } from './interface/country';
-import { NgbdSortableHeader, SortEvent } from './directives/borrowerinformationsortable.directive';
+import { NgbdSortableHeader, SortColumn, SortEvent } from './directives/borrowerinformationsortable.directive';
 import { CountryService } from './services/country.service';
 import { FormsModule } from '@angular/forms';
 import { BorrowersinformationService } from './services/borrowersinformation.service';
 import { BorrowersInformation } from './interface/borrowers-information';
 import moment from 'moment';
-
+const compare = (v1: string | number, v2: string | number) =>
+  v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit {
   public joiningport: string  = "";
   public position: string  = "";
   public contractTerm: string  = "";
-  public loanamountrequested: string  = "";
+  public loanamountrequested: number = 0;
   public loanterm: string  = "";
   public yearsAsSeafer: string  = "";
   public monthlySalary: string  = "";
@@ -136,8 +137,12 @@ public borrowerthirdrelativecontactno: string = ''
 public encodedBy: string = ''
 public dateApplied: string = ''
 
+public borrowersList: BorrowersInformation[] = []
 
 private modalService = inject(NgbModal);
+
+public borrowerArray: any[] = []
+
 //   title = 'LeadGenBorrowerList';
 
 //   constructor(private papa: Papa, private http: HttpClient) 
@@ -153,19 +158,23 @@ private modalService = inject(NgbModal);
 // this.http.get('assets/borrowerinformation.json').subscribe((data) => 
 // {
 //   console.log("borrower information", data)
-// })
+//   })
 
 // }
 
 countries$: Observable<BorrowersInformation[]>;
-total$: Observable<number>;
+//total$: Observable<number>;
+public pageSizeOptions = [5, 10, 15, 20];
+public pageSize = 50;
+public currentPage = 1;
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;
 constructor(public service: BorrowersinformationService) {
   this.countries$ = service.countries$;
-  this.total$ = service.total$;
+  //this.total$ = service.total$;
 }
 
 onSort({ column, direction }: SortEvent) {
+  
   // resetting other headers
   this.headers.forEach((header) => {
     if (header.sortable !== column) {
@@ -177,8 +186,8 @@ onSort({ column, direction }: SortEvent) {
   this.service.sortDirection = direction;
 }
 
-ngOnInit(): void {
-  
+async ngOnInit() {
+  await this.retrieveBorrower();
 }
 // openScrollableContent(longContent: any, data: any) {
 //   console.log("the data", data)
@@ -197,135 +206,9 @@ calculateDateDifference(dateToCalculate: string)
 }
 
 
-openXl(content: TemplateRef<any>, data: BorrowersInformation) {
-  
-
-  this.agency = data.SeabasedAgency;
-  this.principal = data.SeabasedPrincipal;
-  this.joiningport = data.SeabasedJoiningPort;
-  this.position = data.SeabasedPosition;
-  this.contractTerm = data.SeabasedContractTerm;
-  this.loanamountrequested = data.AmountApplied;
-  this.loanterm = data.DesiredTerm;
-  this.yearsAsSeafer = data.SeabasedYearsasSeafarer;
-  this.monthlySalary = data.SeabsedMonthlySalary;
-  this.loanPurpose = data.Purpose;
-  this.lastname = data.BorrowerLastName;
-  this.firstname = data.BorrowerFirstName;
-  this.middlename = data.BorrowerMiddleName;
-  this.birthdate = data.BorrowerBirthDate;
-  this.age = this.calculateDateDifference(data.BorrowerBirthDate);
-  this.sex = data.BorrowerGender;
-  this.civilstatus = data.BorrowerCivilStatus;
-  this.homeaddress = `${data.BorrowerHomeAddress == '' ?'' : data.BorrowerHomeAddress + ','} ${data.BorrowerHomeBarangay} ${data.BorrowerHomeCity}, ${data.BorrowerHomeProvince}`
-  this.provincialaddress = `${data.BorrowerProvincialAddress == '' ?'' : data.BorrowerProvincialAddress + ','} ${data.BorrowerProvincialBarangay} ${data.BorrowerProvincialCity}, ${data.BorrowerProvincialProvince}`
-  this.homelengthofstay = data.BorrowerHomeLengthofStay;
-  this.provinciallengthofstay = data.BorrowerProvincialLengthofStay;
-  this.socialmediaName = data.BorrowerWebsiteApplicationName;
-  this.personalEmailAddress = data.BorrowerPersonalEmailAddress;
-  this.mobileNo = data.BorrowerMobileNo;
-  this.homePhone = data.BorrowerLandlineNo;
-  this.SSSNo = data.BorrowerSSSID;
-  this.TINNo = data.BorrowerTINID;
-  this.homeOwnerhsip = data.BorrowerHomeOwnership;
-  this.homeOwnerhsipHowMuch = data.BorrowerHomeOwnershipHowMuch;
-  this.spouseName = `${data.BorrowerSpouseLastName}, ${data.BorrowerSpouseFirstName} ${data.BorrowerSpouseMiddleName}`
-  this.spouseFacebookAccount = data.BorrowerSpouseFacebookName;
-  this.spouseMobileNo = data.BorrowerSpouseMobileNo;
-  this.spouseEmployerName = data.BorrowerSpouseEmployerName == '' ? 'N/A' : data.BorrowerSpouseEmployerName;
-  this.spouseEmployerAddress = `${data.BorrowerSpouseEmployerHomeAddress == '' ? 'N/A' : data.BorrowerSpouseEmployerHomeAddress + ','} ${data.BorrowerSpouseEmployerBarangay == '' ? 'N/A' : data.BorrowerSpouseEmployerBarangay} ${data.BorrowerSpouseEmployerCity == '' ? 'N/A' : data.BorrowerSpouseEmployerCity} ${data.BorrowerSpouseEmployerProvince == '' ? 'N/A' : data.BorrowerSpouseEmployerProvince}`
-  this.position = "N/A";
-
-  this.firstDependentName = data.Borrower1stDependentName
-  this.firstDependentSchoolAttended = data.Borrower1stDependentSchoolAttended
-  this.firstDependentAge = data.Borrower1stDependentAge
-  this.firstDependentContactNumber = data.Borrower1stDependentMobileNo
 
 
-  
-  this.secondDependentName = data.Borrower2ndDependentName
-  this.secondDependentSchoolAttended = data.Borrower2ndDependentSchoolAttended
-  this.secondDependentAge = data.Borrower2ndDependentAge
-  this.secondDependentContactNumber = data.Borrower2ndDependentMobileNo
-
-  
-  this.thirdDependentName = data.Borrower3rdDependentName
-  this.thirdDependentSchoolAttended = data.Borrower3rdDependentSchoolAttended
-  this.thirdDependentAge = data.Borrower3rdDependentAge
-  this.thirdDependentContactNumber = data.Borrower3rdDependentMobileNo
-
-
-  
-  this.fourthDependentName = data.Borrower4thDependentName
-  this.fourthDependentSchoolAttended = data.Borrower4thDependentSchoolAttended
-  this.fourthDependentAge = data.Borrower4thDependentAge
-  this.fourthDependentContactNumber = data.Borrower4thDependentMobileNo
-
-
-  this.coborrowerlastname = data.BorrowerCoBorrowerLastName;
-  this.coborrowerfirstname = data.BorrowerCoBorrowerFirstName;
-  this.coborrowermiddlename = data.BorrowerCoBorrowerMiddleName;
-  this.coborrowerRelationshipToApplicant = data.BorrowerCoBorrowerRelationshiptoApplicant;
-
-
-
-  this.coborrowerBirthday = data.BorrowerCoBorrowerBirthDate;
-  this.coborrowerAge =  this.calculateDateDifference(data.BorrowerCoBorrowerBirthDate);
-  this.coborrowerEmailAddress = data.BorrowerCoBorrowerPersonalEmailAddress;
-  this.coborrowerMobileNo = data.BorrowerCoBorrowerMobileNo; 
-
-
-
-  this.coborrowerAddress = `${data.BorrowerCoBorrowerHomeAddress == '' ? '' : data.BorrowerCoBorrowerHomeAddress + ','} ${data.BorrowerCoBorrowerBarangay == '' ? '' : data.BorrowerCoBorrowerBarangay} ${data.BorrowerCoBorrowerCity == '' ? '' : data.BorrowerCoBorrowerCity} ${data.BorrowerCoBorrowerBarangay == '' ? '' : data.BorrowerCoBorrowerHomeProvince}`
-this.coborrowerLenghofStay = data.BorrowerCoBorrowerHomeLengthofStay
-
-
-this.coborrowerHomeOwnership = data.BorrowerCoBorrowerHomeOwnership;
-
-
-this.coborrowerHowMuch = data.BorrowerCoBorrowerHomeOwnershipHowMuch;
-
-
-this.borrowerfathersname = data.BorrowerFathersName
-this.borrowermothersname = data.BorrowerMothersName
-this.borrowerparentsaddress = `${data.BorrowerParentsHomeAddress == '' ? '' : data.BorrowerParentsHomeAddress + ','} ${data.BorrowerParentsHomeBarangay == '' ? '' : data.BorrowerParentsHomeBarangay} ${data.BorrowerParentsHomeCity == '' ? '' : data.BorrowerParentsHomeCity} ${data.BorrowerParentsHomeProvince == '' ? '' : data.BorrowerParentsHomeProvince}`
-this.borrowerparentsmobileno = data.BorrowerParentsMobileNo;
-this.borrowerparentslandlineno = data.BorrowerParentsLandlineMobileNo
-
-
-
-
-
-
-
-this.borrowerfirstrelativename = data.Borrower1stRelativeName
-this.borrowerfirstrelativerelationtoapplicant = data.Borrower1stRelativeRelationshiptoApplicant;
-this.borrowerfirstrelativeaddress = `${data.Borrower1stRelativeHomeAddress == '' ? '' : data.Borrower1stRelativeHomeAddress + ','} ${data.Borrower1stRelativeHomeBarangay == '' ? '' : data.Borrower1stRelativeHomeBarangay} ${data.Borrower1stRelativeHomeCity == '' ? '' : data.Borrower1stRelativeHomeCity} ${data.Borrower1stRelativeHomeProvince == '' ? '' : data.Borrower1stRelativeHomeProvince}`
-this.borrowerfirstrelativecontactno = data.Borrower1stRelativeMobileNo
-
-
-this.borrowersecondrelativename = data.Borrower2ndRelativeName
-this.borrowersecondrelativerelationtoapplicant = data.Borrower2ndRelativeRelationshiptoApplicant;
-this.borrowersecondrelativeaddress = `${data.Borrower2ndRelativeHomeAddress == '' ? '' : data.Borrower2ndRelativeHomeAddress + ','} ${data.Borrower2ndRelativeHomeBarangay == '' ? '' : data.Borrower2ndRelativeHomeBarangay} ${data.Borrower2ndRelativeHomeCity == '' ? '' : data.Borrower2ndRelativeHomeCity} ${data.Borrower2ndRelativeHomeProvince == '' ? '' : data.Borrower2ndRelativeHomeProvince}`
-this.borrowersecondrelativecontactno = data.Borrower2ndRelativeMobileNo
-
-
-this.borrowerthirdrelativename = data.Borrower3rdRelativeName
-this.borrowerthirdrelativerelationtoapplicant = data.Borrower3rdRelativeRelationshiptoApplicant;
-this.borrowerthirdrelativeaddress = `${data.Borrower3rdRelativeHomeAddress == '' ? '' : data.Borrower3rdRelativeHomeAddress + ','} ${data.Borrower3rdRelativeHomeBarangay == '' ? '' : data.Borrower3rdRelativeHomeBarangay} ${data.Borrower3rdRelativeHomeCity == '' ? '' : data.Borrower3rdRelativeHomeCity} ${data.Borrower3rdRelativeHomeProvince == '' ? '' : data.Borrower3rdRelativeHomeProvince}`
-this.borrowerthirdrelativecontactno = data.Borrower3rdRelativeMobileNo
-
-
-this.encodedBy = data.EncodedBy;
-
-this.dateApplied = moment(data.DateApplied).toDate().toString();
-
-
-  this.modalService.open(content, { size: 'xl', scrollable: true, backdrop: 'static', keyboard: false });
-}
-
-
-copyMessage(value: string) 
+copyMessage(value: any) 
 {
 navigator.clipboard.writeText(value)
 .then(el => 
@@ -335,5 +218,24 @@ navigator.clipboard.writeText(value)
   })
 .catch(e => console.log(e));
 }
+
+async retrieveBorrower() 
+{
+  const response = await fetch(
+    'https://script.google.com/macros/s/AKfycbxkMPTxFMGHUOa-RLyA-KQcm1v6XpkWQcnbA2rqjaLo-gBhEFvg8_sd0XCd7C6fUvXBmA/exec'
+  );
+  let array  = await response.json();
+  array = array.map((el: any) => 
+    Object.fromEntries(Object.entries(el).map(([key, value]) => ([
+      key.replace(/\s+/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '').replace("-", ''),
+      value
+    ])))
+  );
+    this.borrowersList = array
+}
+ 
+selectPageSize(event: any) {
+  this.pageSize = event.target.value;
+  }
 
 }

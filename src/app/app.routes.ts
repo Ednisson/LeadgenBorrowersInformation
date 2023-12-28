@@ -1,3 +1,14 @@
 import { Routes } from '@angular/router';
-
-export const routes: Routes = [];
+import { BorrowerslistComponent  } from './borrower/borrowerslist/borrowerslist.component'
+export const routes: Routes = 
+[
+    {
+        path: '',
+        pathMatch: "full",
+        redirectTo: 'borrowerslist'
+    },
+    {
+        path: 'borrowerslist',
+        component: BorrowerslistComponent   
+    }
+];

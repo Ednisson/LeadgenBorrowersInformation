@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, TemplateRef, inject } from '@angular/core';
+import { ApplicationRef, Component, NgZone, OnInit, TemplateRef, inject } from '@angular/core';
 import { BorrowersInformation } from '../../interface/borrowers-information';
 //import { Ng2SearchPipe } from 'ng2-search-filter';
 //import { Ng2OrderModule } from 'ng2-order-pipe';
@@ -7,6 +7,8 @@ import { BorrowersInformation } from '../../interface/borrowers-information';
 import { FormsModule } from '@angular/forms';
 import moment from 'moment';
 import { NgbHighlight, NgbPaginationModule, NgbModal, NgbPopoverModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { signInWithEmailAndPassword, Auth, signOut  } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-borrowerslist',
   standalone: true,
@@ -199,15 +201,35 @@ public relativeRelationshipToApplicant: string = ''
 
 public relativeCellphoneNumber: string = ''
 
-constructor() 
+constructor(public auth: Auth, private router: Router, private applicationRef: ApplicationRef, private zone: NgZone) 
 {
+this.retrieveBorrowerWithApplicationTick();
 }
    ngOnInit(): void
   {
-     this.retrieveBorrower();
+     
   }
 
   
+
+
+retrieveBorrowerWithApplicationTick() 
+{
+
+  this.router.events.subscribe(() => 
+{
+  this.zone.run(() => 
+  {
+    setTimeout(() => {
+      this.applicationRef.tick();
+      this.retrieveBorrower();
+    }, 0);
+  })
+})
+
+}
+
+
 retrieveBorrower() 
 {
   // const response = await fetch(
@@ -236,10 +258,10 @@ retrieveBorrower()
     el.AmountAppliedConverted = parseFloat(el.AmountApplied.replace("₱", "").replace(",", "").replace(",", ""));
     el.Agency = el.Based == 'Sea Based' ? el.SeabasedAgency : el.LandbasedAgency
    })
-   this.borrowersList = array
+//   this.borrowersList = array
   
    if (this.multiplecolumnSearch != "") 
-   {
+   {   
     this.borrowersList = this.borrowersList.filter
     (
       f => f.DateApplied.toLowerCase().includes
@@ -283,6 +305,9 @@ retrieveBorrower()
     this.borrowersList = array
   }
  
+  }).catch((err) => 
+  {
+    alert(JSON.stringify(err));
   })
   
 }
@@ -299,12 +324,27 @@ dateAppliedSortClick()
 
   if (this.dateAppliedSortingDescending) 
   {
-    this.borrowersList = this.borrowersList.sort((a, b) => a.DateApplied.localeCompare(b.DateApplied));
+
+    // this.borrowersList = this.borrowersList.sort((a, b) => a.DateApplied.localeCompare(b.DateApplied));
+
+    this.borrowersList = this.borrowersList.sort((a,b) => 
+    {
+      let dateA = new Date(a.DateApplied);
+      let dateB  = new Date(b.DateApplied);
+
+      return Number(dateA) - Number(dateB);
+    })
     this.dateAppliedSortingDescending = false;
   }
   else 
   {
-    this.borrowersList = this.borrowersList.sort().reverse();
+    this.borrowersList = this.borrowersList.sort((a,b) => 
+    {
+      let dateA = new Date(a.DateApplied);
+      let dateB  = new Date(b.DateApplied);
+
+      return Number(dateB) - Number(dateA);
+    })
     this.dateAppliedSortingDescending = true;
   }
 }
@@ -446,7 +486,7 @@ else
 
 SearchQuery() 
 {
-this.retrieveBorrower()
+   this.retrieveBorrower()
 }
 
 copyMessage(value: any) 
@@ -704,7 +744,7 @@ getDateLastUpdated()
 
   if (lastUpdatedFromLocalStorage != null) 
   {
-  this.lastUpdated = JSON.stringify(lastUpdatedFromLocalStorage).replace('"', '').replace('"', '');
+  this.lastUpdated = "Last Refreshed : " + JSON.stringify(lastUpdatedFromLocalStorage).replace('"', '').replace('"', '');
   }
 
 }
@@ -728,5 +768,17 @@ copyEventEmailNotUppercase(event: any)
   var value = event.target.value;
   this.copyMessage(value.toLowerCase());
 }
+
+ signOut() 
+{
+  
+  this.auth.signOut();
+
+   sessionStorage.removeItem('user');
+
+   this.router.navigateByUrl('/login')
+
+}
+
 
 }

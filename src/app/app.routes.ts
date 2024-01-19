@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { BorrowerslistComponent  } from './borrower/borrowerslist/borrowerslist.component'
+import { LoginComponent } from './credentials/login/login.component';
+import { authguardGuard } from './Guard/authguard.guard';
 export const routes: Routes = 
 [
     {
@@ -9,6 +11,12 @@ export const routes: Routes =
     },
     {
         path: 'borrowerslist',
-        component: BorrowerslistComponent   
+        component: BorrowerslistComponent,
+         canActivate: [authguardGuard]   
+    },
+    {
+
+        path: 'login',
+        component: LoginComponent
     }
 ];

@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'LeadGenBorrowerList' title`, () => {
+  it(`should have the 'leadgenborrowerlist' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('LeadGenBorrowerList');
+    expect(app.title).toEqual('leadgenborrowerlist');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, LeadGenBorrowerList');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, leadgenborrowerlist');
   });
 });

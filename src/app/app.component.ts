@@ -143,7 +143,7 @@ private modalService = inject(NgbModal);
 
 public borrowerArray: any[] = []
 
-//   title = 'LeadGenBorrowerList';
+//   title = 'leadgenborrowerlist';
 
 //   constructor(private papa: Papa, private http: HttpClient) 
 //   {

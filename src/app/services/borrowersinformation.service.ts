@@ -142,7 +142,7 @@ export class BorrowersinformationService implements OnInit {
   }
 
   private  _search(data: any): Observable<SearchResult> {
-    console.log("wew", data)
+    
     const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
 //     var borrower: [] = []
 // this.load().then((el) => 

@@ -1248,6 +1248,19 @@
 
 
 </ng-template>
+
+
+
+
+<nav class="navbar navbar-transparent bg-transparent">
+  <!-- <a class="navbar-brand">Navbar</a> -->
+    <a class="navbar-brand" href="#">
+
+  </a>
+  <button class="btn btn-sm btn-danger my-2 my-sm-0" type="submit" (click)="signOut()">Logout</button>
+</nav>
+
+
 <nav class="navbar">
   <div class="col-lg-9">
     <input  class="form-control" type="text" name="firstName"  [(ngModel)]="multiplecolumnSearch" (ngModelChange)="SearchQuery()"
@@ -1256,7 +1269,7 @@
 
   <div class="col-lg-1">
     <!-- <span style="font-weight: bolder;">Last Updated :</span> -->
-    <button type="button" class="btn btn-primary btn-sm" (click)="refreshTable()">Refresh Table</button>
+    <button type="button" class="btn btn-success btn-sm" (click)="refreshTable()">Refresh Table</button>
   </div>
 
   

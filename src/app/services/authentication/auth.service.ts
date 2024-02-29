@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { signInWithEmailAndPassword, Auth, signOut  } from '@angular/fire/auth';
 
 import { Firestore, collection, collectionData, doc, setDoc, updateDoc, 
@@ -15,7 +16,8 @@ export class AuthService {
   constructor
   (
     private auth: Auth,
-    private router: Router
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
     ) 
      {
 
@@ -36,22 +38,6 @@ export class AuthService {
       )
     )
 
-    // return from
-    // (
-    //   this.auth.signInWithEmailAndPassword
-    //   (
-    //     params.email,
-    //     params.password
-    //   )
-    // ).pipe
-    // (
-    //   catchError
-    //   (
-    //     (error: FirebaseError) => 
-    //   throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
-    //   )
-    // );
- 
  
   }
   // signUp(params: any): Observable<any>
@@ -134,8 +120,8 @@ export class AuthService {
 
   get isLoggedIn(): boolean 
   {
-    const user = sessionStorage.getItem('user') != null ?   JSON.parse(sessionStorage.getItem('user') as any) : null;
-    return (user !== null) ? true : false;
+   // return (user !== null) ? true : false;
+    return isPlatformBrowser(this.platformId) ? sessionStorage.getItem('user') != null ? true : false : false
   }
 
 

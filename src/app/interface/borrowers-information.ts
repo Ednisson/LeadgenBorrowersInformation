@@ -287,5 +287,7 @@ SeabsedMonthlySalary: string;
 AmountAppliedConverted: number;
 Agency: string;
 BorrowerSpouseHomeAddressUnitStreetDoorBuilding: string;
+Index: number;
+Status: string;
 // BorrowerFullName: string;
 }

@@ -1,8 +1,9 @@
-import { ApplicationRef, Component, NgZone, OnInit } from '@angular/core';
+import { ApplicationRef, Component, Inject, NgZone, OnInit, PLATFORM_ID } from '@angular/core';
 import { AuthService } from '../../services/authentication/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
+import { isPlatformBrowser } from '@angular/common';
 
 
 @Component({
@@ -18,9 +19,12 @@ public email: string = "";
 public password: string = "";
 public hideLoginCredentialPage: boolean = false;
 public emailForDisplay: string = ""
-  constructor(private authService: AuthService, private router: Router, private applicationRef: ApplicationRef, private zone: NgZone) 
+  constructor(private authService: AuthService, private router: Router, private applicationRef: ApplicationRef, private zone: NgZone,
+    @Inject(PLATFORM_ID) private platformId: Object) 
   {
 
+
+if (isPlatformBrowser(this.platformId)){
 
 this.router.events.subscribe(() => 
 {
@@ -42,7 +46,7 @@ this.router.events.subscribe(() =>
     }, 0);
   })
 })
-
+  }
 
   }
   ngOnInit(): void 
@@ -92,9 +96,11 @@ this.router.events.subscribe(() =>
     ({
       next: async (success) => 
       {
-        sessionStorage.setItem('user', JSON.stringify(success.user.email));
+        if (isPlatformBrowser(this.platformId)) 
+        {
+          sessionStorage.setItem('user', JSON.stringify(success.user.email));
+        }
         this.router.navigateByUrl("/borrowerslist");
-
       },
       error: async error => 
       {

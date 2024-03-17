@@ -601,7 +601,6 @@ export class BorrowerslistComponent implements OnInit {
     {
       sessionStorage.removeItem('user');
     }
-    this.router.navigateByUrl('/login');
     setTimeout(() => {
       window.location.reload();
     }, 100);

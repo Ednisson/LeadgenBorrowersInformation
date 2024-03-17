@@ -8,7 +8,7 @@ export const routes: Routes =
     {
         path: '',
         pathMatch: "full",
-        redirectTo: 'borrowerslist'
+        redirectTo: ''
     },
     {
         path: 'borrowerslist',
@@ -17,8 +17,9 @@ export const routes: Routes =
     },
     {
 
-        path: 'login',
+        path: '',
         component: LoginComponent,
-        canActivate: [canactivateloggedinGuard]
+       canActivate: [canactivateloggedinGuard]
     }
 ];
+ 

@@ -51,40 +51,6 @@ this.router.events.subscribe(() =>
   }
   ngOnInit(): void 
   {
-    // setInterval(() => 
-    // {
-    //   var userSession = JSON.parse(sessionStorage.getItem('user') as any)
-    //   if (userSession != "" && userSession != null) 
-    //   {
-    //     this.hideLoginCredentialPage = true;
-    //   }
-    //   else 
-    //   {
-    //     this.hideLoginCredentialPage = false;
-    //   }
-    // }, 0)
-
-// this.router.events.subscribe(() => 
-// {
-//   this.zone.run(() => 
-//   {
-//     setTimeout(() => {
-//       this.applicationRef.tick();
-//       var userSession = JSON.parse(sessionStorage.getItem('user') as any)
-//       if (userSession != "") 
-//       {
-//         this.hideLoginCredentialPage = true;
-//       }
-//       else 
-//       {
-//         this.hideLoginCredentialPage = false;
-//       }
-      
-//     }, 0);
-//   })
-
-
-
 
   }
 

@@ -64,9 +64,17 @@ this.router.events.subscribe(() =>
       {
         if (isPlatformBrowser(this.platformId)) 
         {
-          sessionStorage.setItem('user', JSON.stringify(success.user.email));
+          this.authService.setUserToSessionStorage(success.user)
         }
-        this.router.navigateByUrl("/borrowerslist");
+        if (success.user.displayName == 'admin') 
+        {
+          this.router.navigate(['/adduser'])  
+        }
+        else 
+        {
+          this.router.navigate(['/borrowerslist']);
+        }
+        
       },
       error: async error => 
       {

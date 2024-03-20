@@ -3,6 +3,7 @@ import { BorrowerslistComponent  } from './borrower/borrowerslist/borrowerslist.
 import { LoginComponent } from './credentials/login/login.component';
 import { authguardGuard } from './Guard/authguard.guard';
 import { canactivateloggedinGuard } from './Guard/canactivateloggedin.guard';
+import { AdduserComponent } from './credentials/adduser/adduser.component';
 export const routes: Routes = 
 [
     {
@@ -16,7 +17,11 @@ export const routes: Routes =
          canActivate: [authguardGuard]   
     },
     {
-
+        path: 'adduser',
+        component: AdduserComponent,
+        canActivate: [authguardGuard]
+    },
+    {
         path: '',
         component: LoginComponent,
        canActivate: [canactivateloggedinGuard]

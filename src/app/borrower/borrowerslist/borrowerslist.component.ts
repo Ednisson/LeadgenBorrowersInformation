@@ -361,7 +361,7 @@ export class BorrowerslistComponent implements OnInit {
     ]);
     return a.diff(b, 'years').toString();
   }
-  openXl(content: TemplateRef<any>, data: BorrowersInformation) {
+  openXl(content: TemplateRef<any>, data: BorrowersInformation) {   
     this.loanAccountStatus = data.Status;
     this.loanIndex = data.Index.toString();
     this.dateApplied = data.DateApplied;
@@ -397,9 +397,9 @@ export class BorrowerslistComponent implements OnInit {
     this.cellphoneNo = data.BorrowerMobileNo;
     this.homeOwnerhsipHowMuch =
       data.BorrowerHomeOwnershipHowMuchIfOwnedMortgageRented;
-    this.monthlySalary =
+      this.monthlySalary =
       data.Based == 'Sea Based'
-        ? data.SeabsedMonthlySalary
+        ? data.SeabsedMonthlySalary.includes("$") ? data.SeabsedMonthlySalary : `$${data.SeabsedMonthlySalary}` 
         : data.LandbasedMonthlySalary;
     this.numberOfDependents = 0;
     
@@ -487,10 +487,18 @@ export class BorrowerslistComponent implements OnInit {
   }
   async refreshTable() {
     this.hideRefresh = false;
-
       await this.GetBorrowersLoanAccountInformation().then(async (el) => 
       {
-        this.hideRefresh = true;
+        
+    this.dateAppliedSortingDescending = true;
+    this.amountSortingDescending = true;
+    this.seaBasedSortingDescending = true;
+    this.desiredTermSortingDescending = true;
+    this.firstnameSortingDescending = true;
+    this.middlenameSortingDescending = true;
+    this.lastnameSortingDescending = true;
+    this.statusSortingDescending = true;
+   this.hideRefresh = true;
             var dateAndTimeToday = moment(new Date()).format(
               'MM-DD-YYYY hh:mm A'
             );

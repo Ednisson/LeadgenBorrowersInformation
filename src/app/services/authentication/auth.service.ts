@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { signInWithEmailAndPassword, Auth, signOut  } from '@angular/fire/auth';
+import { signInWithEmailAndPassword, Auth, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail, user  } from '@angular/fire/auth';
 
 import { Firestore, collection, collectionData, doc, setDoc, updateDoc, 
   increment, addDoc,
@@ -37,46 +37,45 @@ export class AuthService {
         throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
       )
     )
-
- 
   }
-  // signUp(params: any): Observable<any>
-  // {
-  //   return from
-  //   (
-  //     this.auth.createUserWithEmailAndPassword
-  //     (
-  //       params.email,
-  //       params.password
-  //     )
-  //   ).pipe
-  //   (
-  //     catchError
-  //     (
-  //       (error: FirebaseError) => 
-  //     throwError(() => new Error(this.translateFirebaseErrorMessageForSignUp(error)))
-  //     )
-  //   );
-  // }
-  // resetPassword(email: any): Observable<any>
-  // {
-  //   return from
-  //   (
-  //     this.auth.sendPasswordResetEmail
-  //     (
-  //       email
-  //     )
-  //   ).pipe
-  //   (
-  //     catchError
-  //     (
-  //       (error: FirebaseError) => 
-  //     throwError(() => new Error(this.translateFirebaseErrorMessageForSignUp(error)))
-  //     )
-  //   );
-  // }
+  signUp(params: any): Observable<any>
+  {
 
-
+    return from
+    (
+      createUserWithEmailAndPassword
+      (
+        this.auth,
+        params.email,
+        params.password
+      )
+    ).pipe
+    (
+      catchError
+      (
+        (error: FirebaseError) => 
+      throwError(() => new Error(this.translateFirebaseErrorMessageForSignUp(error)))
+      )
+    );
+  }
+  resetPassword(email: any): Observable<any>
+  {
+    return from
+    (
+      sendPasswordResetEmail
+      (
+        this.auth,
+        email
+      )
+    ).pipe
+    (
+      catchError
+      (
+        (error: FirebaseError) => 
+      throwError(() => new Error(this.translateFirebaseErrorMessageForSignUp(error)))
+      )
+    );
+  }
   translateFirebaseErrorMessageForSignUp({code, message}: FirebaseError) {
     if (code === "auth/admin-restricted-operation") {
       return "Email is badly formatted.";
@@ -94,8 +93,6 @@ export class AuthService {
     }
     return message;
   }
-
-
   translateFirebaseErrorMessage({code, message}: FirebaseError) {
     console.log("hehehe", code)
     if (code === "auth/invalid-credential") 
@@ -116,22 +113,28 @@ export class AuthService {
     }
     return message;
   }
-
-
   get isLoggedIn(): boolean 
   {
    // return (user !== null) ? true : false;
-    return isPlatformBrowser(this.platformId) ? sessionStorage.getItem('user') != null ? true : false : false
+    return isPlatformBrowser(this.platformId) ? sessionStorage.getItem('user') != null || sessionStorage.getItem('user') == '' ? true : false : false
   }
-
-
   SignOut()
   {
     this.auth.signOut();
     sessionStorage.removeItem('user');
   }
 
+  setUserToSessionStorage(userobject: any) 
+  {
+      if (isPlatformBrowser(this.platformId))
+      sessionStorage.setItem('user', JSON.stringify(userobject));
+  }
 
+  getCurrentUserLoggedinSessionStorageObject()
+  {
+    if (isPlatformBrowser(this.platformId))
+    return JSON.parse(sessionStorage.getItem('user') as any)
+  }
 
 }
 

@@ -51,40 +51,6 @@ this.router.events.subscribe(() =>
   }
   ngOnInit(): void 
   {
-    // setInterval(() => 
-    // {
-    //   var userSession = JSON.parse(sessionStorage.getItem('user') as any)
-    //   if (userSession != "" && userSession != null) 
-    //   {
-    //     this.hideLoginCredentialPage = true;
-    //   }
-    //   else 
-    //   {
-    //     this.hideLoginCredentialPage = false;
-    //   }
-    // }, 0)
-
-// this.router.events.subscribe(() => 
-// {
-//   this.zone.run(() => 
-//   {
-//     setTimeout(() => {
-//       this.applicationRef.tick();
-//       var userSession = JSON.parse(sessionStorage.getItem('user') as any)
-//       if (userSession != "") 
-//       {
-//         this.hideLoginCredentialPage = true;
-//       }
-//       else 
-//       {
-//         this.hideLoginCredentialPage = false;
-//       }
-      
-//     }, 0);
-//   })
-
-
-
 
   }
 
@@ -98,9 +64,17 @@ this.router.events.subscribe(() =>
       {
         if (isPlatformBrowser(this.platformId)) 
         {
-          sessionStorage.setItem('user', JSON.stringify(success.user.email));
+          this.authService.setUserToSessionStorage(success.user)
         }
-        this.router.navigateByUrl("/borrowerslist");
+        if (success.user.displayName == 'admin') 
+        {
+          this.router.navigate(['/adduser'])  
+        }
+        else 
+        {
+          this.router.navigate(['/borrowerslist']);
+        }
+        
       },
       error: async error => 
       {

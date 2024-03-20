@@ -10,6 +10,7 @@ import { NgbHighlight, NgbPaginationModule, NgbModal, NgbPopoverModule, NgbPopov
 import { signInWithEmailAndPassword, Auth, signOut, updateCurrentUser  } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../services/authentication/auth.service';
 @Component({
   selector: 'app-borrowerslist',
   standalone: true,
@@ -29,32 +30,23 @@ export class BorrowerslistComponent implements OnInit {
   multiplecolumnSearch: string = '';
   dateAppliedSorting: string = 'fas fa-sort-up';
   dateAppliedSortingDescending: boolean = true;
-
   amountSorting: string = 'fas fa-sort-up';
   amountSortingDescending: boolean = true;
-
   seaBasedSorting: string = 'fas fa-sort-up';
   seaBasedSortingDescending: boolean = true;
-
   desiredTermSorting: string = 'fas fa-sort-up';
   desiredTermSortingDescending: boolean = true;
-
   firstnamelandBasedSorting: string = 'fas fa-sort-up';
   firstnameSortingDescending: boolean = true;
-
   middlenamelandBasedSorting: string = 'fas fa-sort-up';
   middlenameSortingDescending: boolean = true;
-
   lastnamelandBasedSorting: string = 'fas fa-sort-up';
   lastnameSortingDescending: boolean = true;
-
   statusSorting: string = 'fas fa-sort-up';
   statusSortingDescending: boolean = true;
-
   public pageSizeOptions = [5, 10, 15, 20];
   public pageSize = 50;
   public currentPage = 1;
-
   public agency: string = '';
   public principal: string = '';
   public joiningport: string = '';
@@ -87,119 +79,97 @@ export class BorrowerslistComponent implements OnInit {
   public spouseName: string = '';
   public spouseFacebookAccount: string = '';
   public spouseMobileNo: string = '';
-
   public spouseEmployerName: string = '';
   public spouseEmployerAddress: string = '';
   public spousePosition: string = '';
-
   public firstDependentName: string = '';
   public firstDependentSchoolAttended: string = '';
   public firstDependentAge: string = '';
   public firstDependentContactNumber: string = '';
-
   public secondDependentName: string = '';
   public secondDependentSchoolAttended: string = '';
   public secondDependentAge: string = '';
   public secondDependentContactNumber: string = '';
-
   public thirdDependentName: string = '';
   public thirdDependentSchoolAttended: string = '';
   public thirdDependentAge: string = '';
   public thirdDependentContactNumber: string = '';
-
   public fourthDependentName: string = '';
   public fourthDependentSchoolAttended: string = '';
   public fourthDependentAge: string = '';
   public fourthDependentContactNumber: string = '';
-
   public coborrowerlastname: string = '';
   public coborrowerfirstname: string = '';
   public coborrowermiddlename: string = '';
   public coborrowerRelationshipToApplicant: string = '';
-
   public coborrowerBirthday: string = '';
   public coborrowerAge: string = '';
   public coborrowerEmailAddress: string = '';
   public coborrowerMobileNo: string = '';
-
   public coborrowerAddress: string = '';
-
   public coborrowerLenghofStay: string = '';
-
   public coborrowerHomeOwnership: string = '';
-
   public coborrowerHowMuch: string = '';
-
   public borrowerfathersname: string = '';
   public borrowermothersname: string = '';
   public borrowerparentsaddress: string = '';
   public borrowerparentsmobileno: string = '';
   public borrowerparentslandlineno: string = '';
-
   public borrowerfirstrelativename: string = '';
   public borrowerfirstrelativerelationtoapplicant: string = '';
   public borrowerfirstrelativeaddress: string = '';
   public borrowerfirstrelativecontactno: string = '';
-
   public borrowersecondrelativename: string = '';
   public borrowersecondrelativerelationtoapplicant: string = '';
   public borrowersecondrelativeaddress: string = '';
   public borrowersecondrelativecontactno: string = '';
-
   public borrowerthirdrelativename: string = '';
   public borrowerthirdrelativerelationtoapplicant: string = '';
   public borrowerthirdrelativeaddress: string = '';
   public borrowerthirdrelativecontactno: string = '';
-
   public encodedBy: string = '';
   public dateApplied: string = '';
-
   private modalService = inject(NgbModal);
-
   hideRefresh: boolean = true;
-
   public lastUpdated: string = '';
-
   public landlineNo: string = '';
   public cellphoneNo: string = '';
   public numberOfDependents: number = 0;
-
   public yearsAsOFWSeaman: number = 0;
-
   public employer: string = '';
-
   public spouseAddress: string = '';
-
   public spouseBirthdate: string = '';
-
   public spouseAge: string = '';
-
   public spouseEmailAddress: string = '';
-
   public relativeName: string = '';
-
   public relativeAddress: string = '';
-
   public relativeRelationshipToApplicant: string = '';
-
   public relativeCellphoneNumber: string = '';
-
   public loanAccountStatus: string = '';
   public loanIndex: string = '';
-
   public updatingStatusFunctionTriggered: boolean = false;
-
+  public confirmationMessage: string = ''
+  public currentstatusValue: string = ''
+  public xlModal: any;
+  public currentUserLoggedInRole: string = ''
   constructor(
     public auth: Auth,
+    private authService: AuthService,
     private router: Router,
     private applicationRef: ApplicationRef,
     private zone: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.retrieveBorrowerWithApplicationTick();
+    this.currentUserLoggedInRole = this.authService.getCurrentUserLoggedinSessionStorageObject().displayName;
   }
-  async ngOnInit() {}
-
+  async ngOnInit() 
+  {
+    window.history.pushState(null, "", window.location.href);        
+    window.onpopstate = function() {
+        window.history.pushState(null, "", window.location.href);
+    };
+  }
   retrieveBorrowerWithApplicationTick() {
     this.router.events.subscribe(() => {
       this.zone.run(() => {
@@ -210,7 +180,6 @@ export class BorrowerslistComponent implements OnInit {
       });
     });
   }
-
   dateAppliedSortClick() {
     this.amountSortingDescending = true;
     this.seaBasedSortingDescending = true;
@@ -240,7 +209,6 @@ export class BorrowerslistComponent implements OnInit {
       this.dateAppliedSortingDescending = true;
     }
   }
-
   amountSortClick() {
     this.dateAppliedSortingDescending = true;
     this.seaBasedSortingDescending = true;
@@ -260,7 +228,6 @@ export class BorrowerslistComponent implements OnInit {
       this.amountSortingDescending = true;
     }
   }
-
   seaBasedSortClick() {
     this.dateAppliedSortingDescending = true;
     this.amountSortingDescending = true;
@@ -280,7 +247,6 @@ export class BorrowerslistComponent implements OnInit {
       this.seaBasedSortingDescending = true;
     }
   }
-
   desiredTermSortClick() {
     this.dateAppliedSortingDescending = true;
     this.amountSortingDescending = true;
@@ -299,7 +265,6 @@ export class BorrowerslistComponent implements OnInit {
       this.desiredTermSortingDescending = true;
     }
   }
-
   firstnameSortClick() {
     this.dateAppliedSortingDescending = true;
     this.amountSortingDescending = true;
@@ -319,7 +284,6 @@ export class BorrowerslistComponent implements OnInit {
       this.firstnameSortingDescending = true;
     }
   }
-
   middlenameSortClick() {
     this.dateAppliedSortingDescending = true;
     this.amountSortingDescending = true;
@@ -338,7 +302,6 @@ export class BorrowerslistComponent implements OnInit {
       this.middlenameSortingDescending = true;
     }
   }
-
   lastnameSortClick() {
     this.dateAppliedSortingDescending = true;
     this.amountSortingDescending = true;
@@ -357,11 +320,9 @@ export class BorrowerslistComponent implements OnInit {
       this.lastnameSortingDescending = true;
     }
   }
-
   async SearchQuery() {
     await this.GetBorrowersLoanAccountInformation();
   }
-
   statusSortClick() {
     this.dateAppliedSortingDescending = true;
     this.amountSortingDescending = true;
@@ -381,7 +342,6 @@ export class BorrowerslistComponent implements OnInit {
       this.statusSortingDescending = true;
     }
   }
-
   calculateDateDifference(dateToCalculate: string) {
     let borrowerBirthdateSplit = moment(dateToCalculate)
       .format('MM-DD-YYYY')
@@ -439,30 +399,40 @@ export class BorrowerslistComponent implements OnInit {
       data.BorrowerHomeOwnershipHowMuchIfOwnedMortgageRented;
     this.monthlySalary =
       data.Based == 'Sea Based'
-        ? '$' + data.SeabsedMonthlySalary
-        : '$' + data.LandbasedMonthlySalary;
+        ? data.SeabsedMonthlySalary
+        : data.LandbasedMonthlySalary;
     this.numberOfDependents = 0;
-    if (
-      data.Borrower1stDependentName != 'N/A' &&
-      data.Borrower1stDependentAge != 'N/A' &&
-      data.Borrower1stDependentMobileNo != 'N/A'
-    ) {
-      this.numberOfDependents++;
+    
+    if (data.Borrower1stDependentName != '') 
+    {
+      if (data.Borrower1stDependentName != 'N/A') 
+      {
+        this.numberOfDependents++;
+      }
     }
-    if (
-      data.Borrower2ndDependentName != 'N/A' &&
-      data.Borrower2ndDependentAge != 'N/A' &&
-      data.Borrower2ndDependentMobileNo != 'N/A'
-    ) {
-      this.numberOfDependents++;
+
+    if (data.Borrower2ndDependentName != '') 
+    {
+      if (data.Borrower2ndDependentName != 'N/A') 
+      {
+        this.numberOfDependents++;
+      }
     }
-    if (
-      data.Borrower3rdDependentName != 'N/A' &&
-      data.Borrower3rdDependentAge != 'N/A' &&
-      data.Borrower3rdDependentMobileNo != 'N/A'
-    ) {
-      this.numberOfDependents++;
+    if (data.Borrower3rdDependentName != '') 
+    {
+      if (data.Borrower3rdDependentName != 'N/A') 
+      {
+        this.numberOfDependents++;
+      }
     }
+    if (data.Borrower4thDependentName != '') 
+    {
+      if (data.Borrower4thDependentName != 'N/A') 
+      {
+        this.numberOfDependents++;
+      }
+    }
+    
     this.yearsAsOFWSeaman =
       data.Based == 'Sea Based'
         ? parseInt(data.SeabasedYearsasSeafarer)
@@ -506,16 +476,15 @@ export class BorrowerslistComponent implements OnInit {
     this.TINNo = data.BorrowerTINID;
 
 
-
-    this.modalService.open(content, {
+  this.xlModal =  this.modalService.open(content, {
       size: 'xl',
       scrollable: true,
       backdrop: 'static',
       keyboard: false,
       fullscreen: true,
-    });
+    })
+    
   }
-
   async refreshTable() {
     this.hideRefresh = false;
 
@@ -532,13 +501,11 @@ export class BorrowerslistComponent implements OnInit {
             this.getDateLastUpdated();
       })
   }
-
   async login() {
     const response = await fetch('assets/users.json');
 
     let array = await response.json();
   }
-
   getDateLastUpdated() {
     var lastUpdatedFromLocalStorage = JSON.parse(
       localStorage.getItem('lastrefreshed') as any
@@ -552,13 +519,11 @@ export class BorrowerslistComponent implements OnInit {
           .replace('"', '');
     }
   }
-
   closePopOver(p: NgbPopover) {
     setTimeout(() => {
       p.close();
     }, 500);
   }
-
   copyMessage(value: any) {
     this.unsecuredCopyToClipboard(value);
     // navigator.clipboard.writeText(value)
@@ -569,7 +534,6 @@ export class BorrowerslistComponent implements OnInit {
     //   })
     // .catch(e => console.log(e));
   }
-
   unsecuredCopyToClipboard(text: any) {
     const textArea = document.createElement('textarea');
     textArea.value = text;
@@ -584,29 +548,24 @@ export class BorrowerslistComponent implements OnInit {
     }
     document.body.removeChild(textArea);
   }
-
   copyEvent(event: any) {
     var value = event.target.value;
     this.copyMessage(value.toUpperCase());
   }
-
   copyEventEmailNotUppercase(event: any) {
     var value = event.target.value;
     this.copyMessage(value.toLowerCase());
   }
-
   signOut() {
     this.auth.signOut();
     if (isPlatformBrowser(this.platformId)) 
     {
       sessionStorage.removeItem('user');
     }
-    this.router.navigateByUrl('/login');
     setTimeout(() => {
       window.location.reload();
     }, 100);
   }
-
   async GetBorrowersLoanAccountInformation() {
     const GetBorrowersLoanAccountInformationResponse = await fetch(
       `https://script.google.com/macros/s/AKfycbzdxuXkKlD4CBZohSTGyKN_lOrB5JroN3GcoLDY_LyvwpOhUcoXn-5bUVxnZIawJaW7/exec?action=getListformaindisplay`
@@ -679,41 +638,59 @@ export class BorrowerslistComponent implements OnInit {
     }
 
   }
-
-  UpdateLoanAccountStatus(statusValue: any, modal: any) {
+  UpdateLoanAccountStatus(statusValue: any) 
+  {
     this.updatingStatusFunctionTriggered = true;
     const UpdateLoanAccountStatusResponse = fetch(
       `https://script.google.com/macros/s/AKfycbzdxuXkKlD4CBZohSTGyKN_lOrB5JroN3GcoLDY_LyvwpOhUcoXn-5bUVxnZIawJaW7/exec?action=updatestatusbyindexid&indexID=${this.loanIndex}&statusValue=${statusValue}`
     );
-
     UpdateLoanAccountStatusResponse.then(async (res) => {
       await res.json().then(async (el) => 
-      {
-       // setTimeout(async () => {
-          
+      {    
           await this.GetBorrowersLoanAccountInformation().then(async (el2) => 
           {
-            await modal.dismiss('Cross click');
+            await this.xlModal.dismiss('Cross click');
             this.updatingStatusFunctionTriggered = false;
           });
-       //}, 8000);
       });
-      
     })
     .catch(async (err) => {
+      console.log("the error", err)
       alert('Error Updating');
     });
   }
-
-  openConfirmation(content: TemplateRef<any>) 
+  openConfirmation(content: any) 
   {
     this.modalService.open(content, {
       size: 'md',
       scrollable: true,
       backdrop: 'static',
       keyboard: false
-    });
-
+    })
+  }
+  openConfirmationModal(statusValue: any, confirmationmodal: any) 
+  {
+    this.currentstatusValue = ''
+    this.currentstatusValue = statusValue;
+    var borrowerFullName = `${this.lastname}, ${this.firstname}, ${this.middlename}`
+    this.confirmationMessage = ''
+    this.confirmationMessage = `Are you sure you want to marked as ${statusValue.toLowerCase()} the loan application of ${borrowerFullName}`
+    this.openConfirmation(confirmationmodal);
 
   }
+
+
+  updateLoanStatus(statusvalue: any, confirmationModal: any) 
+  {
+    confirmationModal.dismiss('cancel click');
+    this.UpdateLoanAccountStatus(statusvalue);
+
+  }
+  gotoAddUser() 
+  {
+
+    this.router.navigate(['/adduser'])
+  }
+
+
 }

@@ -399,7 +399,7 @@ export class BorrowerslistComponent implements OnInit {
       data.BorrowerHomeOwnershipHowMuchIfOwnedMortgageRented;
       this.monthlySalary =
       data.Based == 'Sea Based'
-        ? data.SeabsedMonthlySalary.includes("$") ? data.SeabsedMonthlySalary : `$${data.SeabsedMonthlySalary}` 
+        ? data.SeabsedMonthlySalary 
         : data.LandbasedMonthlySalary;
     this.numberOfDependents = 0;
     
